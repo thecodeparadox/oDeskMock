@@ -18,16 +18,37 @@
 			return $this;
 		}
 		
-		public function setData($data) {
-			$this->data = $data;
+		private function _setData() {
+			$this->data = array(
+				array(
+					'Name' => 'Trixie',
+					'Color' => 'Green',
+					'Element' => 'Earth',
+					'Likes' => 'Flowers'
+				),
+				array(
+					'Name' => 'Tinkerbell',
+					'Element' => 'Air',
+					'Likes' => 'Singning',
+					'Color' => 'Blue'
+				), 
+				array(
+					'Element' => 'Water',
+					'Likes' => 'Dancing',
+					'Name' => 'Blum',
+					'Color' => 'Pink'
+				),
+			);
+		
+			$this->colors = array(
+				'Name' => '#751919',
+				'Color' => '#EB6EEB',
+				'Element' => '#6fe550',
+				'Likes' => '#000000'
+			);
 			return $this;
 		}
-		
-		public function setColors($colors) {
-			$this->colors = $colors;
-			return $this;
-		}
-		
+
 		private function _getHeaders() {
 			$this->headers = array_keys($this->data[0]);
 			return $this;
@@ -85,49 +106,16 @@
 			return $dRows;
 		}
 		
-		private function _printTable() {
+		public function printTable() {
+			$this->_setData()->_getHeaders()->_getColsLength();	
 			echo "<pre>" . PHP_EOL
 				. $this->_makeTableHeaderRow()
 				. $this->_makeTableDataRows()
 				. "</pre>";
 		}
-		
-		public function printTable() {
-			$this->_getHeaders()->_getColsLength();
-			$this->_printTable();
-		}
 	}
-	
-	//	Data
-	$arr = array(
-		array(
-			'Name' => 'Trixie',
-			'Color' => 'Green',
-			'Element' => 'Earth',
-			'Likes' => 'Flowers'
-		),
-		array(
-			'Name' => 'Tinkerbell',
-			'Element' => 'Air',
-			'Likes' => 'Singning',
-			'Color' => 'Blue'
-		), 
-		array(
-			'Element' => 'Water',
-			'Likes' => 'Dancing',
-			'Name' => 'Blum',
-			'Color' => 'Pink'
-		),
-	);
-	
-	$colors = array(
-		'Name' => '#751919',
-		'Color' => '#EB6EEB',
-		'Element' => '#6fe550',
-		'Likes' => '#000000'
-	);
 	
 	//	Class Instance
 	$Table = new PrintAsciiTable();
-	$Table->setData($arr)->setColors($colors)->printTable();
+	$Table->printTable();
 ?>

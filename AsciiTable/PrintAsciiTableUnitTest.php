@@ -114,8 +114,4 @@
 				. "</pre>";
 		}
 	}
-	
-	//	Class Instance
-	$Table = new PrintAsciiTable();
-	$Table->printTable();
 ?>

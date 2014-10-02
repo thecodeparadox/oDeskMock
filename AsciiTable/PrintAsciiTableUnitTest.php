@@ -19,6 +19,9 @@
 		}
 		
 		private function _setData() {
+			$this->assertEmpty($this->data);
+			$this->assertEmpty($this->colors);
+			
 			$this->data = array(
 				array(
 					'Name' => 'Trixie',
@@ -46,14 +49,21 @@
 				'Element' => '#6fe550',
 				'Likes' => '#000000'
 			);
+			
 			return $this;
 		}
 
+		/**
+		* @depends _setData
+		*/
 		private function _getHeaders() {
 			$this->headers = array_keys($this->data[0]);
 			return $this;
 		}
-		
+
+		/**
+		* @depends _getHeaders
+		*/
 		private function _getColsLength() {
 			foreach($this->headers as $h) {
 				$hLen = strlen($h);
@@ -65,7 +75,11 @@
 			}
 		}
 		
+		/**
+		* @depends _getColsLength
+		*/
 		private function _horizontalSeperator() {
+			$this->assertNotEmpty($this->colsLength);
 			$hs = '';
 			foreach($this->colsLength as $len) {
 				$hs .= chr(43) . str_repeat(chr(45), $len);
@@ -78,6 +92,7 @@
 			$c = '';
 			foreach($this->headers as $h) {
 				$str =  str_pad($h, $this->colsLength[$h], chr(32), STR_PAD_RIGHT);
+				$this->assertRegExp('/#([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?\b/', $this->colors[$h]);
 				$c .= chr(124) . '<span style="color: '. $this->colors[$h] .'">'. $str . '</span>';
 			}
 			$c .= chr(124);
@@ -106,12 +121,21 @@
 			return $dRows;
 		}
 		
+		/**
+		 * @test
+		 */
 		public function printTable() {
-			$this->_setData()->_getHeaders()->_getColsLength();	
-			echo "<pre>" . PHP_EOL
-				. $this->_makeTableHeaderRow()
-				. $this->_makeTableDataRows()
-				. "</pre>";
+			$this->_setData();
+			
+			$this->assertNotEmpty($this->data[0]);
+			$this->_getHeaders();
+			
+			$this->assertNotEmpty($this->headers);
+			$this->assertEmpty($this->colsLength);
+			$this->_getColsLength();	
+			
+			$this->_makeTableHeaderRow();
+			$this->_makeTableDataRows();
 		}
 	}
 ?>

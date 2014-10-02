@@ -41,10 +41,10 @@
 			);
 		
 			$this->colors = array(
-				'Name' => '#751919',
+				'Name' => '#aaa',
 				'Color' => '#EB6EEB',
 				'Element' => '#6fe550',
-				'Likes' => '#000000'
+				'Likes' => '#ff0000'
 			);
 			return $this;
 		}
